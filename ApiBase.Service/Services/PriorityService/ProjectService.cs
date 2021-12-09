@@ -296,9 +296,16 @@ namespace ApiBase.Service.Services.PriorityService
                 mem.userId = project.userId;
                 dynamic id = mem.userId;
                 UserJira user = _userJira.GetSingleByIdAsync(id).Result;
-                mem.userId = user.id;
-                mem.name = user.name;
-                mem.avatar = user.avatar;
+                if (user != null)
+                {
+                    mem.userId = user.id;
+                    mem.name = user.name;
+                    mem.avatar = user.avatar;
+                 
+                }else
+                {
+                    user = new UserJira();
+                }
                 lst.Add(mem);
             }
             return lst;
