@@ -14,7 +14,7 @@ namespace ApiBase.Repository.Models
         public bool gender { get; set; }
         public string phone { get; set; }
         public string facebookId { get; set; }
-        public string userTypeId { get; set; }
+        //public string userTypeId { get; set; }
         public bool deleted { get; set; }
         public string avatar { get; set; }
 

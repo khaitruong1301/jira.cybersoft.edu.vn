@@ -91,7 +91,7 @@ namespace ApiBase.Service.Services.UserService
                 // Mã hóa mật khẩu
                 //entity.MatKhau = BCrypt.Net.BCrypt.HashPassword(modelVm.MatKhau);
                 entity.avatar = "/static/user-icon.png";
-                entity.userTypeId = "CUSTOMER";
+                //entity.userTypeId = "CUSTOMER";
 
                 entity = await _userRepository.InsertAsync(entity);
                 if (entity == null)
@@ -110,7 +110,7 @@ namespace ApiBase.Service.Services.UserService
             try
             {
                 // Lấy ra thông tin người dùng từ database dựa vào email
-                AppUser entity = await _userRepository.GetSingleByConditionAsync("email",modelVm.email);
+                UserJira entity = await _useJiraRepository.GetSingleByConditionAsync("email",modelVm.email);
                 if (entity == null)// Nếu email sai
                     return new ResponseEntity(StatusCodeConstants.NOT_FOUND, modelVm, MessageConstants.SIGNIN_WRONG);
                 // Kiểm tra mật khẩu có khớp không
@@ -123,7 +123,7 @@ namespace ApiBase.Service.Services.UserService
                 columns.Add(new KeyValuePair<string, dynamic>("password", modelVm.password));
                 if (entity == null)// Nếu email sai
                     return new ResponseEntity(StatusCodeConstants.NOT_FOUND, modelVm, MessageConstants.SIGNIN_WRONG);
-                entity = await _userRepository.GetSingleByListConditionAsync(columns);
+                entity = await _useJiraRepository.GetSingleByListConditionAsync(columns);
                 // Tạo token
                 string token = await GenerateToken(entity);
                 if (token == string.Empty)
@@ -139,11 +139,11 @@ namespace ApiBase.Service.Services.UserService
             }
         }
 
-        private async Task<string> GenerateToken(AppUser entity)
+        private async Task<string> GenerateToken(UserJira entity)
         {
             try
             {
-                UserType group = await _userTypeRepository.GetSingleByIdAsync( entity.userTypeId);
+                UserType group = await _userTypeRepository.GetSingleByIdAsync("Customers");
                 if (group == null)
                     return string.Empty;
 
@@ -215,12 +215,12 @@ namespace ApiBase.Service.Services.UserService
                 if (objType.GetProperty("email") != null)
                 {
                     //Kiểm tra có email chưa lấy ra
-                    AppUser userCheckEmail = await _userRepository.GetSingleByConditionAsync("email", facebookAccount.email);
+                    UserJira userCheckEmail = await _useJiraRepository.GetSingleByConditionAsync("email", facebookAccount.email);
                     if (userCheckEmail != null)
                     {
                         //Cập nhật fb id cho mail đó
                         userCheckEmail.facebookId = facebookAccount.id;
-                        await _userRepository.UpdateByConditionAsync("email", facebookAccount.email, userCheckEmail);
+                        await _useJiraRepository.UpdateByConditionAsync("email", facebookAccount.email, userCheckEmail);
                         UserLoginResult userResult = new UserLoginResult();
                         userResult.email = userCheckEmail.email;
                         userResult.accessToken = await GenerateTokenJira(facebookUser);
@@ -228,15 +228,15 @@ namespace ApiBase.Service.Services.UserService
                     }
                 }
                 //Nếu chưa có tạo tài khoản
-                AppUser userModel = new AppUser();
+                UserJira userModel = new UserJira();
                 userModel.facebookId = facebookAccount.id;
                 userModel.name = facebookAccount.first_name + " " + facebookAccount.last_name;
                 userModel.email = userModel.facebookId + "@facebook.com";
                 userModel.deleted = false;
                 userModel.avatar = "/static/user-icon.png";
-                userModel.userTypeId = "CUSTOMER";
+                //userModel.userTypeId = "CUSTOMER";
 
-                AppUser userInsert = await _userRepository.InsertAsync(userModel);
+                UserJira userInsert = await _useJiraRepository.InsertAsync(userModel);
                 if (userInsert != null)
                 {
                     UserLoginResult userResult = new UserLoginResult();
