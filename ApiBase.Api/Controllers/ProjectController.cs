@@ -53,7 +53,7 @@ namespace ApiBase.Api.Controllers
        
 
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("getAllProject")]
         public async Task<IActionResult> getAllProject(string keyword="")
         {
