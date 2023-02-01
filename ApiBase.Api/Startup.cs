@@ -147,7 +147,7 @@ namespace ApiBase.Api
             services.AddCors(
                 options => options.AddPolicy(CorsPolicy,
                 builder => {
-                    builder.WithOrigins("http://localhost:3000", "http://crm.myclass.vn", "https://login.cybersoft.edu.vn", "https://crm.cybersoft.edu.vn", "*")
+                    builder.WithOrigins("http://crm.myclass.vn", "https://login.cybersoft.edu.vn", "https://crm.cybersoft.edu.vn", "*")
                            .AllowAnyOrigin()
                            .AllowAnyMethod()
                            .AllowAnyHeader()

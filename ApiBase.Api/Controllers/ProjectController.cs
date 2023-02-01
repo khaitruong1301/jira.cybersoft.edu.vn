@@ -61,24 +61,24 @@ namespace ApiBase.Api.Controllers
         }
 
 
-        [Authorize]
-        [HttpDelete("deleteProject")]
-        public async Task<IActionResult> deleteProject(int projectId)
-        {
-            List<dynamic> lstId = new List<dynamic>();
-            lstId.Add(projectId);
-            return await _projectService.DeleteByIdAsync(lstId);
-        }
+        //[Authorize]
+        //[HttpDelete("deleteProject")]
+        //public async Task<IActionResult> deleteProject(int projectId)
+        //{
+        //    List<dynamic> lstId = new List<dynamic>();
+        //    lstId.Add(projectId);
+        //    return await _projectService.DeleteByIdAsync(lstId);
+        //}
 
 
-        [Authorize]
-        [HttpPut("updateProject")]
-        public async Task<IActionResult> updateProject(int? projectId, ProjectUpdate projectUpdate)
-        {
-            var accessToken = Request.Headers[HeaderNames.Authorization];
+        //[Authorize]
+        //[HttpPut("updateProject")]
+        //public async Task<IActionResult> updateProject(int? projectId, ProjectUpdate projectUpdate)
+        //{
+        //    var accessToken = Request.Headers[HeaderNames.Authorization];
 
-            return await _projectService.updateProject(projectId,projectUpdate, accessToken);
-        }
+        //    return await _projectService.updateProject(projectId,projectUpdate, accessToken);
+        //}
 
         [Authorize]
         [HttpPost("assignUserProject")]
